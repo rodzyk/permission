@@ -7,3 +7,38 @@ Simple PHP library for Permission Validation
 1. Get [Composer](http://getcomposer.org/)
 2. Require Raisins Validation with `composer require raisins/permission`
 3. Add the following to your application's main PHP file: `require 'vendor/autoload.php';`
+
+## Usage
+
+```php
+use\Raisins\{PermissionValidation, Permission};
+
+$pv = new PermissionValidation();
+
+// set required permissions
+$pv->required = [
+    new Permission("read", -1),
+    new Permission("edit"),
+    new Permission("delete", 1)
+];
+
+// set available permission
+$pv->available = [
+    new Permission("read"),
+    new Permission("edit"),
+    new Permission("delete", -1)
+];
+
+$result = $pv->validate();
+
+echo $result; // false
+
+// merge overridden permissions (option)
+$pv->merge([
+    new Permission("delete", 1)
+]);
+
+$result = $pv->validate();
+
+echo $result; // true
+```

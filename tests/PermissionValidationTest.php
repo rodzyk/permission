@@ -89,7 +89,7 @@ class PermissionValidationTest extends TestCase
         ];
 
         $result = $pv->validate();
-        
+
         $this->assertEquals(false, $result);
 
         // merge overridden permissions (option)
@@ -100,6 +100,44 @@ class PermissionValidationTest extends TestCase
         $result = $pv->validate();
 
         $this->assertEquals(true, $result);
+    }
+
+    public function testFromJson()
+    {
+        $pv = new PermissionValidation();
+
+        $permissions = [
+            new Permission("read", -1),
+            new Permission("edit"),
+            new Permission("delete", 1)
+        ];
+
+        $permissionsJson = json_encode($permissions);
+
+        $pv->setAvailable($permissionsJson);
+        $pv->setRequired($permissionsJson);
+
+        $this->assertEquals($permissions[0]->getName(), $pv->available[0]->getName());
+        $this->assertEquals($permissions[2]->getState(), $pv->required[2]->getState());
+    }
+
+    public function testFromJsonString()
+    {
+        $pv = new PermissionValidation();
+
+        $permissions = [
+            new Permission("read", -1),
+            new Permission("edit"),
+            new Permission("delete", 1)
+        ];
+
+        $permissionsJson = '[{"name": "read", "state": -1}, {"name": "edit", "state": 0}, {"name": "delete", "state": 1}]';
+
+        $pv->setAvailable($permissionsJson);
+        $pv->setRequired($permissionsJson);
+
+        $this->assertEquals($permissions[0]->getName(), $pv->available[0]->getName());
+        $this->assertEquals($permissions[2]->getState(), $pv->required[2]->getState());
     }
 
     public function permissionProvider()

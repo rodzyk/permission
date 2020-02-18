@@ -19,6 +19,37 @@ class PermissionValidation
      */
     public $required;
 
+
+    public function setAvailable(string $json)
+    {
+        $this->available = $this->fromJson($json);
+    }
+
+    public function setRequired(string $json)
+    {
+        $this->required = $this->fromJson($json);
+    }
+
+    protected function fromJson(string $json = "{}"): array
+    {
+        $list = [];
+        $data = @json_decode($json, true);
+
+        if ($data === null && json_last_error() !== JSON_ERROR_NONE) throw new \Exception("Error Parse JSON");
+
+        foreach ($data as $item) {
+
+            $name = $item['name'] ?? null;
+            $state = $item['state'] ?? 0;
+
+            if ($name != null) {
+                $list[] = new Permission($name, $state);
+            }
+        }
+
+        return $list;
+    }
+
     /**
      * Undocumented function
      *

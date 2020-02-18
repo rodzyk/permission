@@ -42,3 +42,17 @@ $result = $pv->validate();
 
 echo $result; // true
 ```
+
+## Set by JSON
+
+```php
+$pv = new PermissionValidation();
+
+$permissionsJson = '[{"name": "read", "state": -1}, {"name": "edit", "state": 0}, {"name": "delete", "state": 1}]';
+
+$pv->setAvailable($permissionsJson);
+$pv->setRequired($permissionsJson);
+
+// ...
+
+```

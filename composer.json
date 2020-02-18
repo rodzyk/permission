@@ -1,0 +1,26 @@
+{
+  "name": "raisins/permission",
+  "type": "library",
+  "require-dev": {
+    "phpunit/phpunit": "^7.5"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "rodzyk",
+      "email": "rodzyk@programmer.net"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Raisins\\": "src/Raisins/"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "autoload": " composer dumpautoload -o"
+  },
+  "require": {
+    "php": "^7.1"
+  }
+}
